@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2XX BEt - Official Site</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#121212] text-white font-sans pb-16">
+
+    <!-- Header -->
+    <header class="bg-[#1e1e1e] p-3 flex justify-between items-center border-b border-gray-800">
+        <h1 class="text-yellow-500 font-bold text-lg">2XX BEt</h1>
+        <div class="space-x-2">
+            <button onclick="openModal('loginModal')" class="bg-gray-800 text-xs px-3 py-1.5 rounded border border-gray-700">লগইন</button>
+            <button onclick="openModal('registerModal')" class="bg-yellow-600 text-black text-xs font-bold px-3 py-1.5 rounded">সাইন আপ</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="p-4 max-w-md mx-auto">
+        <div class="bg-gradient-to-r from-yellow-600 to-yellow-500 p-4 rounded-lg text-black mb-4 text-center">
+            <h2 class="font-bold text-lg">স্বাগতম 2XX BEt-এ!</h2>
+            <p class="text-xs mt-1">সবচেয়ে নিরাপদ ও দ্রুততম বেটিং প্ল্যাটফর্ম</p>
+        </div>
+
+        <h3 class="text-xs text-gray-400 mb-2">লাইভ গেমস ও স্পোর্টস</h3>
+        <div class="grid grid-cols-2 gap-2 mb-4">
+            <div class="bg-[#1e1e1e] p-3 rounded border border-gray-800 text-center">
+                <span class="text-sm font-bold">🏏 ক্রিকেট লাইভ</span>
+            </div>
+            <div class="bg-[#1e1e1e] p-3 rounded border border-gray-800 text-center">
+                <span class="text-sm font-bold">⚽ ফুটবল লাইভ</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-70 hidden flex justify-center items-center p-4">
+        <div class="bg-[#1e1e1e] p-4 rounded-lg w-full max-w-sm border border-gray-800">
+            <h2 class="text-sm font-bold mb-3 text-yellow-500">লগইন করুন</h2>
+            <input type="text" id="loginUser" placeholder="ইউজারনেম বা মোবাইল নম্বর" class="w-full bg-gray-900 border border-gray-700 p-2 rounded mb-2 text-xs text-white">
+            <input type="password" id="loginPass" placeholder="পাসওয়ার্ড" class="w-full bg-gray-900 border border-gray-700 p-2 rounded mb-3 text-xs text-white">
+            <button onclick="handleLogin()" class="w-full bg-yellow-600 text-black font-bold py-2 rounded text-xs mb-2">লগইন</button>
+            <button onclick="closeModal('loginModal')" class="w-full bg-gray-800 text-xs py-1.5 rounded text-gray-400">বন্ধ করুন</button>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="fixed inset-0 bg-black bg-opacity-70 hidden flex justify-center items-center p-4">
+        <div class="bg-[#1e1e1e] p-4 rounded-lg w-full max-w-sm border border-gray-800">
+            <h2 class="text-sm font-bold mb-3 text-yellow-500">নতুন অ্যাকাউন্ট তৈরি করুন</h2>
+            <input type="text" id="regUser" placeholder="ইউজারনেম" class="w-full bg-gray-900 border border-gray-700 p-2 rounded mb-2 text-xs text-white">
+            <input type="text" id="regPhone" placeholder="মোবাইল নম্বর" class="w-full bg-gray-900 border border-gray-700 p-2 rounded mb-2 text-xs text-white">
+            <input type="password" id="regPass" placeholder="পাসওয়ার্ড" class="w-full bg-gray-900 border border-gray-700 p-2 rounded mb-3 text-xs text-white">
+            <button onclick="handleRegister()" class="w-full bg-yellow-600 text-black font-bold py-2 rounded text-xs mb-2">সাইন আপ করুন</button>
+            <button onclick="closeModal('registerModal')" class="w-full bg-gray-800 text-xs py-1.5 rounded text-gray-400">বন্ধ করুন</button>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-[#1a1a1a] border-t border-gray-800 flex justify-around p-2 text-xs">
+        <a href="index.html" class="text-yellow-500 flex flex-col items-center">🏠 হোম</a>
+        <a href="deposit.html" class="text-gray-400 flex flex-col items-center">💳 জমা দিন</a>
+        <a href="withdraw.html" class="text-gray-400 flex flex-col items-center">💸 উত্তোলন</a>
+    </nav>
+
+    <script>
+        function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+        function handleRegister() {
+            const user = document.getElementById('regUser').value;
+            const pass = document.getElementById('regPass').value;
+            if(!user || !pass) { alert('সব তথ্য পূরণ করুন!'); return; }
+            localStorage.setItem('savedUser', user);
+            localStorage.setItem('savedPass', pass);
+            alert('সফলভাবে সাইন আপ হয়েছে!');
+            closeModal('registerModal');
+            openModal('loginModal');
+        }
+
+        function handleLogin() {
+            const user = document.getElementById('loginUser').value;
+            const pass = document.getElementById('loginPass').value;
+            const savedUser = localStorage.getItem('savedUser');
+            const savedPass = localStorage.getItem('savedPass');
+
+            if(user === savedUser && pass === savedPass) {
+                alert('লগইন সফল হয়েছে!');
+                closeModal('loginModal');
+            } else {
+                alert('ভুল ইউজারনেম বা পাসওয়ার্ড!');
+            }
+        }
+    </script>
+</body>
+</html>
