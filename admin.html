@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <title>2XBET - Admin Panel</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #151515; color: #fff; padding: 20px; }
+        .section { background: #222; padding: 15px; margin-bottom: 20px; border-radius: 5px; }
+        button { background: #2196F3; color: white; border: none; padding: 5px 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>অ্যাডমিন কন্ট্রোল প্যানেল</h1>
+    
+    <div class="section">
+        <h3>ইউজার লিস্ট ও পাসওয়ার্ড</h3>
+        <div id="usersList">লোড হচ্ছে...</div>
+    </div>
+
+    <div class="section">
+        <h3>ডিপোজিট রিকোয়েস্টসমূহ</h3>
+        <div id="depositList">লোড হচ্ছে...</div>
+    </div>
+
+    <script type="module">
+        import "./app.js";
+
+        async function loadAdminData() {
+            // ইউজার লোড
+            const usersSnap = await window.getDocs(window.collection(window.db, "users"));
+            let uHtml = "<ul>";
+            usersSnap.forEach((doc) => {
+                let d = doc.data();
+                uHtml += `<li>ইউজার: ${d.username} | পাসওয়ার্ড: ${d.password}</li>`;
+            });
+            uHtml += "</ul>";
+            document.getElementById('usersList').innerHTML = uHtml;
+
+            // ডিপোজিট রিকোয়েস্ট লোড
+            const depSnap = await window.getDocs(window.collection(window.db, "deposits"));
+            let dHtml = "<ul>";
+            depSnap.forEach((docSnap) => {
+                let d = docSnap.data();
+                let id = docSnap.id;
+                dHtml += `<li>ইউজার: ${d.username} - পরিমাণ: ${d.amount} - স্ট্যাটাস: ${d.status} 
+                          <button onclick="approveDeposit('${id}', '${d.username}', ${d.amount})">এপ্রুভ</button></li>`;
+            });
+            dHtml += "</ul>";
+            document.getElementById('depositList').innerHTML = dHtml;
+        }
+
+        window.approveDeposit = async function(id, username, amount) {
+            await window.updateDoc(window.doc(window.db, "deposits", id), { status: "Approved" });
+            alert("ডিপোজিট সফলভাবে এপ্রুভ করা হয়েছে!");
+            loadAdminData();
+        }
+
+        loadAdminData();
+    </script>
+</body>
+</html>
