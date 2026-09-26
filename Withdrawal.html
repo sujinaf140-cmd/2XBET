@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>টাকা উত্তোলন - 2XX BEt</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#121212] text-white font-sans pb-16">
+
+    <header class="bg-[#1e1e1e] p-3 flex justify-between items-center border-b border-gray-800">
+        <a href="index.html" class="text-yellow-500 font-bold">← ব্যাক</a>
+        <h1 class="text-sm font-bold">উত্তোলন (Withdraw)</h1>
+        <span></span>
+    </header>
+
+    <div class="p-4 max-w-md mx-auto">
+        <div class="bg-[#1e1e1e] p-4 rounded-lg border border-gray-800">
+            <div class="bg-gray-900 p-3 rounded mb-3 text-center">
+                <span class="text-xs text-gray-400">মেইন ব্যালেন্স:</span>
+                <div class="text-lg font-bold text-yellow-400">৳ 0.00</div>
+            </div>
+            <div class="mb-3">
+                <label class="text-xs text-gray-400">পেমেন্ট মেথড</label>
+                <select id="withdrawMethod" class="w-full bg-gray-900 border border-gray-700 p-2 rounded mt-1 text-sm text-white">
+                    <option>বিকাশ</option>
+                    <option>নগদ</option>
+                    <option>রকেট</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="text-xs text-gray-400">উত্তোলনের পরিমাণ</label>
+                <input type="number" id="withdrawAmount" placeholder="৫০০ - ২৫০০০" class="w-full bg-gray-900 border border-gray-700 p-2 rounded mt-1 text-sm text-white">
+            </div>
+            <div class="mb-4">
+                <label class="text-xs text-gray-400">একাউন্ট নম্বর (Personal)</label>
+                <input type="text" id="withdrawAccount" placeholder="01XXXXXXXXX" class="w-full bg-gray-900 border border-gray-700 p-2 rounded mt-1 text-sm text-white">
+            </div>
+            <button onclick="submitWithdraw()" class="w-full bg-yellow-600 text-black font-bold py-2 rounded text-sm">উত্তোলন অনুরোধ পাঠান</button>
+        </div>
+    </div>
+
+    <nav class="fixed bottom-0 left-0 right-0 bg-[#1a1a1a] border-t border-gray-800 flex justify-around p-2 text-xs">
+        <a href="index.html" class="text-gray-400 flex flex-col items-center">🏠 হোম</a>
+        <a href="deposit.html" class="text-gray-400 flex flex-col items-center">💳 জমা দিন</a>
+        <a href="withdraw.html" class="text-yellow-500 flex flex-col items-center">💸 উত্তোলন</a>
+    </nav>
+
+    <script>
+        function submitWithdraw() {
+            const amount = document.getElementById('withdrawAmount').value;
+            const account = document.getElementById('withdrawAccount').value;
+            const method = document.getElementById('withdrawMethod').value;
+
+            if(!amount || !account) {
+                alert('দয়া করে সঠিক পরিমাণ এবং একাউন্ট নম্বর দিন!');
+                return;
+            }
+
+            alert(`আপনার ${method}-এর মাধ্যমে ${amount} টাকার উত্তোলন অনুরোধ সফলভাবে পাঠানো হয়েছে!`);
+        }
+    </script>
+</body>
+</html>
