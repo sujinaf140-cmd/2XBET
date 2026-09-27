@@ -59,3 +59,59 @@ DOCTYPE html>
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+</head>
+<body>
+    <h1>এডমিন প্যানেল - ডিপোজিট রিকোয়েস্ট</h1>
+    
+    <!-- যেখানে ডাটাগুলো শো করবে -->
+    <div id="deposit-list"></div>
+
+    <!-- ফায়ারবেজ ও ডাটা ফেচ করার কোড -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+      import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+      // ফায়ারবেজ কনফিগারেশন
+      const firebaseConfig = {
+        apiKey: "AIzaSyC3XqI-9w081zC52J9pUkLW...",
+        authDomain: "mybetapp-9768b.firebaseapp.com",
+        projectId: "mybetapp-9768b",
+        storageBucket: "mybetapp-9768b.firebasestorage.app",
+        messagingSenderId: "856211044946",
+        appId: "1:856211044946:web:25657cd95d276aadd77d6b"
+      };
+
+      // ফায়ারবেজ ইনিশিয়ালাইজ
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      // ডাটা লোড করার ফাংশন
+      async function loadAdminData() {
+        try {
+          const querySnapshot = await getDocs(collection(db, "deposits"));
+          let output = "";
+          
+          querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            output += `<p>ইউজার: ${data.username} | পরিমাণ: ${data.amount} | মাধ্যম: ${data.method} | স্ট্যাটাস: ${data.status}</p>`;
+          });
+
+          // ব্রাউজারে বা পেজে ডাটাগুলো দেখানোর জন্য
+          document.getElementById("deposit-list").innerHTML = output;
+          console.log("Data loaded successfully!");
+        } catch (error) {
+          console.error("Error getting documents: ", error);
+        }
+      }
+
+      loadAdminData();
+    </script>
+</body>
+</html>
+
